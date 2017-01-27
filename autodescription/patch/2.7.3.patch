@@ -1,0 +1,47 @@
+Index: autodescription.php
+===================================================================
+--- autodescription.php	(revision 1549305)
++++ autodescription.php	(working copy)
+@@ -3,7 +3,7 @@
+  * Plugin Name: The SEO Framework
+  * Plugin URI: https://wordpress.org/plugins/autodescription/
+  * Description: An automated, advanced, accessible, unbranded and extremely fast SEO solution for any WordPress website.
+- * Version: 2.7.2
++ * Version: 2.7.3
+  * Author: Sybre Waaijer
+  * Author URI: https://cyberwire.nl/
+  * License: GPLv3
+@@ -46,7 +46,7 @@
+  * Not many caching plugins use CDN in dashboard. What a shame. Firefox does cache.
+  * @since 1.0.0
+  */
+-define( 'THE_SEO_FRAMEWORK_VERSION', '2.7.2' );
++define( 'THE_SEO_FRAMEWORK_VERSION', '2.7.3' );
+ 
+ /**
+  * Plugin Database version for lightweight version comparing.
+Index: inc/classes/detect.class.php
+===================================================================
+--- inc/classes/detect.class.php	(revision 1549275)
++++ inc/classes/detect.class.php	(working copy)
+@@ -567,9 +567,9 @@
+ 	 * Determines if WP is above or below a version
+ 	 *
+ 	 * @since 2.2.1
+-	 *
++	 * @since 2.3.8: Added caching
++	 * @since 2.8.0: No longer overwrites global $wp_version
+ 	 * @staticvar array $cache
+-	 * @since 2.3.8
+ 	 *
+ 	 * @param string $version the three part version to compare to WordPress
+ 	 * @param string $compare the comparing operator, default "$version >= Current WP Version"
+@@ -585,7 +585,7 @@
+ 		if ( isset( $cache[ $version ][ $compare ] ) )
+ 			return $cache[ $version ][ $compare ];
+ 
+-		global $wp_version;
++		$wp_version = $GLOBALS['wp_version'];
+ 
+ 		// Add a .0 if WP outputs something like 4.3 instead of 4.3.0
+ 		if ( 3 === strlen( $wp_version ) )
